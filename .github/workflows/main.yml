@@ -13,7 +13,8 @@ jobs:
         
     - name: Start tcpdump
       run: |
-        sudo tcpdump -i eth0 -nn -w okta.dmp host 34.223.95.128 or host 34.223.95.129 or host 34.223.95.130 &
+        sudo tcpdump -D
+        sudo tcpdump -i any -nn -w okta.dmp host 34.223.95.128 or host 34.223.95.129 or host 34.223.95.130 &
 
     - name: Hit okta 10x
       run: |
