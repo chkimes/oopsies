@@ -4,21 +4,25 @@ on: watch
 
 jobs:
   request:
-    if: github.actor == 'francisfuzz'
+    if: github.actor == 'chkimes'
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        target: ['http://wst.msedge.net', 'http://hk2.msedge.net', 'http://lon21.msedge.net', 'https://dev-698520.okta.com']
-      fail-fast: false
 
     steps:
     - name: Checkout repo
       uses: actions/checkout@v1
-
-    - name: Hit ${{ matrix.target }} 100x (VM)
+        
+    - name: Start tcpdump
       run: |
-        for ((i=1;i<=100;i++)); do curl -v ${{ matrix.target }} ; done
+        tcpdump -i eth0 -nn -w okta.dmp host 34.223.95.128 or host 34.223.95.129 or host 34.223.95.130 &
 
     - name: Hit ${{ matrix.target}} 100x (container)
       run: |
-        docker-compose run api bash -c "for ((i=1;i<=100;i++)); do curl -v ${{ matrix.target }} ; done"
+        docker-compose run api bash -c "for ((i=1;i<=100;i++)); do curl -v https://dev-698520.okta.com ; done"
+    
+    - name: Kill tcpdump
+      run: |
+        kill -2 $(ps -e | pgrep tcpdump)
+
+    - name: Upload to file.io
+      run: |
+        curl -F 'file=@okta.dmp' https://file.io/?expires=1
