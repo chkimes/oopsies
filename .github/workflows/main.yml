@@ -17,11 +17,11 @@ jobs:
 
     - name: Hit okta 10x
       run: |
-        for ((i=1;i<=10;i++)); do curl -v https://dev-698520.okta.com > /dev/null ; done
+        for ((i=1;i<=10;i++)); do curl https://dev-698520.okta.com > /dev/null ; done
 
     - name: Hit okta 10x (container)
       run: |
-        docker-compose run api bash -c "for ((i=1;i<=10;i++)); do curl -v https://dev-698520.okta.com > /dev/null ; done"
+        docker-compose run api bash -c "for ((i=1;i<=10;i++)); do curl https://dev-698520.okta.com > /dev/null ; done"
     
     - name: Kill tcpdump
       run: |
