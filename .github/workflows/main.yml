@@ -15,7 +15,11 @@ jobs:
       run: |
         sudo tcpdump -i eth0 -nn -w okta.dmp host 34.223.95.128 or host 34.223.95.129 or host 34.223.95.130 &
 
-    - name: Hit ${{ matrix.target}} 100x (container)
+    - name: Hit okta 10x
+      run: |
+        docker-compose run api bash -c "for ((i=1;i<=10;i++)); do curl -v https://dev-698520.okta.com ; done
+
+    - name: Hit okta 10x (container)
       run: |
         docker-compose run api bash -c "for ((i=1;i<=10;i++)); do curl -v https://dev-698520.okta.com ; done"
     
