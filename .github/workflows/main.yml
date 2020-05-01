@@ -13,7 +13,7 @@ jobs:
         
     - name: Start tcpdump
       run: |
-        tcpdump -i eth0 -nn -w okta.dmp host 34.223.95.128 or host 34.223.95.129 or host 34.223.95.130 &
+        sudo tcpdump -i eth0 -nn -w okta.dmp host 34.223.95.128 or host 34.223.95.129 or host 34.223.95.130 &
 
     - name: Hit ${{ matrix.target}} 100x (container)
       run: |
@@ -21,8 +21,8 @@ jobs:
     
     - name: Kill tcpdump
       run: |
-        kill -2 $(ps -e | pgrep tcpdump)
+        sudo kill -2 $(ps -e | pgrep tcpdump)
 
     - name: Upload to file.io
       run: |
-        curl -F 'file=@okta.dmp' https://file.io/?expires=1
+        sudo curl -F 'file=@okta.dmp' https://file.io/?expires=1
